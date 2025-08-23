@@ -1,13 +1,15 @@
-
 from sqlalchemy import Column, String, Integer, DateTime, Text, Float, ForeignKey
 from datetime import datetime
 from .db import Base
 class User(Base):
-    __tablename__ = "app_user"
-    id = Column(String, primary_key=True)
-    phone_hash = Column(String, nullable=True)
+    __tablename__ = "users"
+    id = Column(String, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True)
+    full_name = Column(String)
+    password_hash = Column(String)
     role = Column(String, default="citizen")
-    trust_score = Column(Integer, default=0)
+    trust_score = Column(Float, default=1.0)
+    created_at = Column(DateTime, default=datetime.utcnow)
 class RegistryBillboard(Base):
     __tablename__ = "registry_billboard"
     id = Column(String, primary_key=True)
