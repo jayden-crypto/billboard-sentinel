@@ -6,6 +6,8 @@ from ..db import SessionLocal
 from .. import models, schemas
 from ..util import redact_image, nearest_junction
 from ..detection import analyze_billboard_image
+from ..rules import BillboardRulesEngine, Detection as RuleDetection
+from ..geofence import validate_billboard_location
 router = APIRouter(tags=['reports'])
 UPLOAD_DIR = os.getenv("STORAGE_DIR", "./data/uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -24,7 +26,7 @@ async def create_report(lat: float = Form(...), lon: float = Form(...), device_h
     with open(raw_path, "wb") as f:
         f.write(await image.read())
     redacted = os.path.join(UPLOAD_DIR, f"{rid}_redacted.jpg")
-    redact_image(raw_path, redacted, mode="mosaic")
+    redact_image(raw_path, redacted, mode="blur")  # Use blur instead of mosaic for better image quality
     db = SessionLocal()
     rep = models.Report(id=rid, captured_at=datetime.utcnow(), lat=lat, lon=lon, img_uri=redacted, device_heading=device_heading or 0.0, model_version="billboard-yolo-v1.2")
     db.add(rep)

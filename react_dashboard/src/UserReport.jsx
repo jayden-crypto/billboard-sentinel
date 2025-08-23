@@ -11,6 +11,7 @@ export default function UserReport() {
     urgency: 'medium',
     consent: false
   });
+  const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [cameraError, setCameraError] = useState('');
   const [cameraInitialized, setCameraInitialized] = useState(false);
@@ -869,7 +870,7 @@ PlaysInline: ${debugInfo.playsInline}`);
         <button
           className={`btn btn-primary submit-btn ${!capturedImage || !reportData.consent ? 'disabled' : ''}`}
           onClick={submitReport}
-          disabled={!capturedImage || !reportData.consent || isSubmitting}
+          disabled={!capturedImage || !privacyConsent || isSubmitting}
         >
           {isSubmitting ? '📤 Submitting...' : '📤 Submit Report'}
         </button>
@@ -878,18 +879,47 @@ PlaysInline: ${debugInfo.playsInline}`);
       {/* Privacy Notice */}
       <div className="privacy-notice">
         <h3>🔒 Privacy & Data Protection</h3>
-        <div className="privacy-content">
-          <p><strong>Your Privacy Matters:</strong></p>
-          <ul>
-            <li>📸 Photos are automatically processed to blur faces and license plates</li>
-            <li>📍 Location data is used only for civic enforcement purposes</li>
-            <li>🔐 All data is encrypted and stored securely</li>
-            <li>👤 Personal information is never shared with third parties</li>
-            <li>🗑️ You can request data deletion at any time</li>
-          </ul>
-          <p><strong>AI Detection:</strong> Our computer vision system automatically detects billboard violations including size, placement, and licensing issues.</p>
-          <p><em>Compliant with Model Outdoor Advertising Policy 2016 & IT Rules 2021</em></p>
+        <div className="privacy-disclaimer">
+          <h3>🔒 Privacy & Data Protection Notice</h3>
+          <div className="consent-section">
+            <p><strong>Before proceeding, please read and consent to our data practices:</strong></p>
+            
+            <div className="privacy-points">
+              <h4>Data Collection & Processing:</h4>
+              <p>• Photos: Automatically processed to blur faces and license plates for privacy</p>
+              <p>• Location: GPS coordinates used only for violation detection and compliance</p>
+              <p>• Device Info: Camera metadata for size estimation accuracy</p>
+              
+              <h4>Data Usage:</h4>
+              <p>• Municipal compliance reporting and billboard regulation enforcement</p>
+              <p>• Anonymous analytics for urban planning improvements</p>
+              <p>• No personal identification or commercial use</p>
+              
+              <h4>Your Rights:</h4>
+              <p>• Data deletion requests honored within 30 days</p>
+              <p>• GDPR and IT Rules 2021 compliant</p>
+              <p>• Encrypted storage and transmission</p>
+            </div>
+            
+            <div className="consent-checkbox">
+              <label>
+                <input 
+                  type="checkbox" 
+                  checked={privacyConsent}
+                  onChange={(e) => setPrivacyConsent(e.target.checked)}
+                  required
+                />
+                <strong>I consent to the collection and processing of my data as described above</strong>
+              </label>
+            </div>
+            
+            {!privacyConsent && (
+              <p className="consent-warning">⚠️ Privacy consent is required to submit reports</p>
+            )}
+          </div>
         </div>
+        <p><strong>AI Detection:</strong> Our computer vision system automatically detects billboard violations including size, placement, and licensing issues.</p>
+        <p><em>Compliant with Model Outdoor Advertising Policy 2016 & IT Rules 2021</em></p>
       </div>
 
       {/* Instructions */}

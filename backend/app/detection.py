@@ -8,6 +8,8 @@ import random
 from typing import List, Dict, Tuple
 from PIL import Image
 import numpy as np
+from .size_estimation import estimate_billboard_size
+from .ocr import extract_billboard_text
 
 class BillboardDetector:
     """Mock computer vision detector that simulates YOLO/Faster R-CNN detection"""
@@ -37,20 +39,18 @@ class BillboardDetector:
             # Generate realistic bounding box
             bbox = self._generate_realistic_bbox(width, height)
             
-            # Estimate real-world dimensions based on image analysis
-            est_width, est_height = self._estimate_dimensions(bbox, width, height)
+            # Estimate real-world dimensions using camera-based size estimation
+            size_estimate = estimate_billboard_size(bbox, width, height)
+            est_width, est_height = size_estimate["width_m"], size_estimate["height_m"]
             
             # Generate corner points for perspective analysis
             corners = self._generate_corners(bbox)
             
-            # Mock OCR text extraction
-            ocr_text = self._generate_mock_ocr()
-            
-            # Mock QR code detection (20% chance)
-            qr_text = self._generate_mock_qr() if random.random() < 0.2 else ""
-            
-            # Mock license detection (60% chance of finding license)
-            license_id = self._generate_mock_license() if random.random() < 0.6 else ""
+            # Enhanced OCR text extraction with license detection
+            ocr_result = extract_billboard_text(image_path)
+            ocr_text = ocr_result["full_text"]
+            qr_text = ocr_result["qr_codes"][0]["content"] if ocr_result["qr_codes"] else ""
+            license_id = ocr_result["license_numbers"][0] if ocr_result["license_numbers"] else ""
             
             # Confidence score
             confidence = random.uniform(0.6, 0.95)
