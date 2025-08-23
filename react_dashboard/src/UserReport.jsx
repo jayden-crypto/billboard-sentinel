@@ -469,17 +469,12 @@ export default function UserReport() {
         formData.append('detections_json', JSON.stringify(detections));
         
         const apiBase = window.location.hostname === 'jayden-crypto.github.io' 
-          ? 'http://192.168.1.85:8000/api'  // Use network IP for GitHub Pages
+          ? 'MOCK_MODE'  // Use mock mode for remote testing
           : 'http://localhost:8000/api';
         
-        const response = await fetch(`${apiBase}/reports`, {
-          method: 'POST',
-          body: formData
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Report submitted successfully:', result);
+        if (apiBase === 'MOCK_MODE') {
+          // Simulate successful submission for remote testing
+          console.log('Mock submission successful');
           setShowSuccess(true);
           setPhotoCaptured(true);
           
@@ -488,8 +483,25 @@ export default function UserReport() {
             window.refreshDashboard();
           }
         } else {
-          const errorText = await response.text();
-          throw new Error(`Backend error: ${errorText}`);
+          const response = await fetch(`${apiBase}/reports`, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            console.log('Report submitted successfully:', result);
+            setShowSuccess(true);
+            setPhotoCaptured(true);
+            
+            // Notify parent component to refresh dashboard
+            if (window.refreshDashboard) {
+              window.refreshDashboard();
+            }
+          } else {
+            const errorText = await response.text();
+            throw new Error(`Backend error: ${errorText}`);
+          }
         }
       }
       

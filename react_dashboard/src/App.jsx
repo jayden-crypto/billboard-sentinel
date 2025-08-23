@@ -19,7 +19,7 @@ export default function App() {
   const [notificationMessage, setNotificationMessage] = useState('');
 
   const API_BASE = window.location.hostname === 'jayden-crypto.github.io' 
-    ? 'http://192.168.1.85:8000/api'  // Use your laptop's network IP for GitHub Pages
+    ? 'MOCK_MODE'  // Use mock data for remote testing
     : 'http://localhost:8000/api';
   const IS_GITHUB_PAGES = window.location.hostname === 'jayden-crypto.github.io';
   
@@ -58,6 +58,46 @@ export default function App() {
   };
 
   const loadDashboard = async () => {
+    if (API_BASE === 'MOCK_MODE') {
+      // Mock data for remote testing
+      const mockReports = [
+        {
+          id: 'demo-1',
+          location: 'Sector 17, Chandigarh',
+          coordinates: [30.354, 76.366],
+          status: 'pending',
+          timestamp: new Date().toISOString(),
+          detections: [{
+            id: 'det-1',
+            violations: [
+              { type: 'size', reason: 'Exceeds 12x4m limit', severity: 4 },
+              { type: 'license_missing', reason: 'No permit visible', severity: 5 }
+            ]
+          }],
+          image: '/placeholder-billboard.jpg'
+        },
+        {
+          id: 'demo-2', 
+          location: 'Mall Road, Shimla',
+          coordinates: [31.104, 77.173],
+          status: 'resolved',
+          timestamp: new Date(Date.now() - 86400000).toISOString(),
+          detections: [{
+            id: 'det-2',
+            violations: [
+              { type: 'placement', reason: 'Too close to junction', severity: 3 }
+            ]
+          }],
+          image: '/placeholder-billboard.jpg'
+        }
+      ];
+      setReports(mockReports);
+      setStats({ totalReports: 2, pendingReview: 1, resolved: 1, responseTime: '24h' });
+      setLoading(false);
+      setApiStatus('mock-mode');
+      return;
+    } 
+
     try {
       setLoading(true);
       
