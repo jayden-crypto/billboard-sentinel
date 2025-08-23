@@ -18,7 +18,9 @@ export default function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
 
-  const API_BASE = 'http://localhost:8000/api';
+  const API_BASE = window.location.hostname === 'jayden-crypto.github.io' 
+    ? 'http://192.168.1.85:8000/api'  // Use your laptop's network IP for GitHub Pages
+    : 'http://localhost:8000/api';
   const IS_GITHUB_PAGES = window.location.hostname === 'jayden-crypto.github.io';
   
   useEffect(() => {

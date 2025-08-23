@@ -468,7 +468,11 @@ export default function UserReport() {
         
         formData.append('detections_json', JSON.stringify(detections));
         
-        const response = await fetch('http://localhost:8000/api/reports', {
+        const apiBase = window.location.hostname === 'jayden-crypto.github.io' 
+          ? 'http://192.168.1.85:8000/api'  // Use network IP for GitHub Pages
+          : 'http://localhost:8000/api';
+        
+        const response = await fetch(`${apiBase}/reports`, {
           method: 'POST',
           body: formData
         });
