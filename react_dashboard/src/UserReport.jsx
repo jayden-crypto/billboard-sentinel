@@ -870,7 +870,7 @@ PlaysInline: ${debugInfo.playsInline}`);
         <button
           className={`btn btn-primary submit-btn ${!capturedImage || !reportData.consent ? 'disabled' : ''}`}
           onClick={submitReport}
-          disabled={!capturedImage || !privacyConsent || isSubmitting}
+          disabled={!capturedImage || !reportData.consent || isSubmitting}
         >
           {isSubmitting ? '📤 Submitting...' : '📤 Submit Report'}
         </button>

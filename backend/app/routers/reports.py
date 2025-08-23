@@ -21,12 +21,23 @@ def get_db():
         db.close()
 @router.post("/reports", response_model=schemas.ReportOut)
 async def create_report(lat: float = Form(...), lon: float = Form(...), device_heading: float | None = Form(None), detections_json: str = Form(None), image: UploadFile = File(...)):
+    # Validate image file type
+    if not image.content_type or not image.content_type.startswith('image/'):
+        raise HTTPException(status_code=400, detail="File must be an image")
+    
     rid = str(uuid.uuid4())
     raw_path = os.path.join(UPLOAD_DIR, f"{rid}_raw_{image.filename}")
-    with open(raw_path, "wb") as f:
-        f.write(await image.read())
-    redacted = os.path.join(UPLOAD_DIR, f"{rid}_redacted.jpg")
-    redact_image(raw_path, redacted, mode="blur")  # Use blur instead of mosaic for better image quality
+    
+    try:
+        with open(raw_path, "wb") as f:
+            f.write(await image.read())
+        redacted = os.path.join(UPLOAD_DIR, f"{rid}_redacted.jpg")
+        redact_image(raw_path, redacted, mode="blur")  # Use blur instead of mosaic for better image quality
+    except Exception as e:
+        # Clean up failed upload
+        if os.path.exists(raw_path):
+            os.remove(raw_path)
+        raise HTTPException(status_code=400, detail=f"Image processing failed: {str(e)}")
     db = SessionLocal()
     rep = models.Report(id=rid, captured_at=datetime.utcnow(), lat=lat, lon=lon, img_uri=redacted, device_heading=device_heading or 0.0, model_version="billboard-yolo-v1.2")
     db.add(rep)

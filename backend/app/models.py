@@ -24,7 +24,7 @@ class RegistryBillboard(Base):
 class Report(Base):
     __tablename__ = "report"
     id = Column(String, primary_key=True)
-    user_id = Column(String, ForeignKey("app_user.id"), nullable=True)
+    user_id = Column(String, ForeignKey("users.id"), nullable=True)
     captured_at = Column(DateTime, default=datetime.utcnow)
     lat = Column(Float); lon = Column(Float)
     img_uri = Column(Text); img_uri_redacted = Column(Text, nullable=True)
