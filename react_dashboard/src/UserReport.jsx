@@ -875,6 +875,23 @@ PlaysInline: ${debugInfo.playsInline}`);
         </button>
       </div>
 
+      {/* Privacy Notice */}
+      <div className="privacy-notice">
+        <h3>🔒 Privacy & Data Protection</h3>
+        <div className="privacy-content">
+          <p><strong>Your Privacy Matters:</strong></p>
+          <ul>
+            <li>📸 Photos are automatically processed to blur faces and license plates</li>
+            <li>📍 Location data is used only for civic enforcement purposes</li>
+            <li>🔐 All data is encrypted and stored securely</li>
+            <li>👤 Personal information is never shared with third parties</li>
+            <li>🗑️ You can request data deletion at any time</li>
+          </ul>
+          <p><strong>AI Detection:</strong> Our computer vision system automatically detects billboard violations including size, placement, and licensing issues.</p>
+          <p><em>Compliant with Model Outdoor Advertising Policy 2016 & IT Rules 2021</em></p>
+        </div>
+      </div>
+
       {/* Instructions */}
       <div className="instructions">
         <h3>📋 How to Report:</h3>

@@ -407,6 +407,29 @@ export default function App() {
 
       {/* Main Content */}
       <div className="main-content">
+        {/* Heatmap Section */}
+        <div className="heatmap-section">
+          <h2 className="section-title">🗺️ Billboard Violations Heatmap</h2>
+          <div className="heatmap-container">
+            <div id="heatmap" style={{ height: '400px', width: '100%', backgroundColor: '#f8f9fa', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px dashed #dee2e6' }}>
+              <div style={{ textAlign: 'center', color: '#6c757d' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '10px' }}>🗺️</div>
+                <p><strong>Interactive Heatmap</strong></p>
+                <p>Shows concentration of billboard violations across the city</p>
+                <p><em>Integration with Leaflet.js/Mapbox ready</em></p>
+                <div style={{ marginTop: '15px' }}>
+                  <span style={{ display: 'inline-block', width: '12px', height: '12px', backgroundColor: '#ff4444', borderRadius: '50%', marginRight: '8px' }}></span>
+                  <small>High Violation Areas</small>
+                  <span style={{ display: 'inline-block', width: '12px', height: '12px', backgroundColor: '#ffaa44', borderRadius: '50%', margin: '0 8px 0 15px' }}></span>
+                  <small>Medium</small>
+                  <span style={{ display: 'inline-block', width: '12px', height: '12px', backgroundColor: '#44ff44', borderRadius: '50%', margin: '0 8px 0 15px' }}></span>
+                  <small>Low</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Reports List */}
         <div className="reports-section">
           <h2 className="section-title">📋 Recent Reports</h2>
