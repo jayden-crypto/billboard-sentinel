@@ -443,7 +443,7 @@ export default function App() {
               >
                 <div className="report-image">
                   <img 
-                    src={report.image} 
+                    src={`http://localhost:8000${report.image}`} 
                     alt="Detection"
                     onError={(e) => {
                       console.log('Image failed to load:', report.image);

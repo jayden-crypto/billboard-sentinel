@@ -1,4 +1,5 @@
-
 license_id,owner,lat,lon,width_m,height_m,valid_from,valid_to
 LIC-CHD-001,Star Ads,30.3555,76.3651,8,3,2024-01-01,2026-12-31
 LIC-CHD-002,City Media,30.3542,76.3620,6,3,2023-04-01,2025-10-31
+LIC-CHD-003,Metro Outdoor,30.3598,76.3712,10,4,2024-03-01,2025-12-31
+LIC-CHD-004,Prime Displays,30.3521,76.3589,12,3.5,2023-08-01,2026-07-31
